@@ -21,10 +21,17 @@ class ORM:
                 sesion.commit()
             return "Користувач уже є"
     @staticmethod
-    def auth_user(user):
+    def auth_username(username):
         with session_factory() as sesion:
-            user_new = sesion.query(User).filter(User.username == user.username, User.password == user.password).first()
-            if user_new:
+            username_new = sesion.query(User).filter(User.username == username).first()
+            
+            if username_new:
+                return True
+            return False
+    def auth_password(password):
+        with session_factory() as sesion:
+            password_new = sesion.query(User).filter(User.password == password).first()
+            if password_new:
                 return True
             return False
 
