@@ -1,8 +1,8 @@
 import secrets
 
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException, status, Query, status
-
+from fastapi import FastAPI, Depends, HTTPException, status, Query, status, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from typing import Annotated
 from starlette.requests import Request
@@ -28,17 +28,24 @@ def check_credentials(credentials: HTTPBasicCredentials = Depends(security)):
         )
     return credentials.username
 
-@app.post("/auth")
-def auth(username=Depends(check_credentials)):
-    return {"msg": "Авторизація пройшла успішно"}
 
+@app.get("/", response_class=HTMLResponse)
+def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.post("/submitform")
+def index(login: str = Form(...), password: str = Form(...)):
+    print('login:', login)
+    print('password:', password)
+    return RedirectResponse("/", status_code=303)
 @app.post("/add_book")
 def add_book(book : BookBase,request:Request, username = Depends(check_credentials)):
     print(username)
     book_db = Book(author = book.author,name = book.name, pages = book.pages)
     ORM.add_book(book_db)
-    content = book.name+book.author+str(book.pages)
-    return templates.TemplateResponse("index.html",{"request": request,"head":"Книжка додана","content":content})
+    return "Book was added"
+    
 @app.get("/{author}_books")
 def get_books_by_author(author : str, username = Depends(check_credentials)):
     return ORM.get_book_by_author(author)
@@ -48,4 +55,3 @@ def refill(name : str, book : BookBase,username = Depends(check_credentials)):
 def delete_book(name:str, username = Depends(check_credentials)):
     
     return ORM.delete_author(name)
-
