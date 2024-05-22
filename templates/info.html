@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Info</title>
+</head>
+<body>
+    {%for book in books%}
+        <h1>{{book.author}}</h1>
+        <p>{{book.name}}<br>{{book.pages}}</p>
+    {%endfor%}
+
+</body>
+</html>

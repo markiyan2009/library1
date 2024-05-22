@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add book</title>
+</head>
+<body>
+    <form action="/http://127.0.0.1:8000/submit_add_book" method="post">
+        Author
+        <input type="text" name="author">
+        Name book 
+        <input type="text" name="name">
+        Pages
+        <input type="text" name="pages">
+        <input type="submit" name="submit">
+        {% if submit %}
+
+            Book was added
+        {%endif%}
+    </form>
+</body>
+</html>
