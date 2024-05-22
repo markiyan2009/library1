@@ -30,28 +30,52 @@ def check_credentials(credentials: HTTPBasicCredentials = Depends(security)):
 
 
 @app.get("/", response_class=HTMLResponse)
-def index(request: Request):
+async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.post("/submitform")
-def index(login: str = Form(...), password: str = Form(...)):
-    print('login:', login)
-    print('password:', password)
-    return RedirectResponse("/", status_code=303)
-@app.post("/add_book")
-def add_book(book : BookBase,request:Request, username = Depends(check_credentials)):
-    print(username)
-    book_db = Book(author = book.author,name = book.name, pages = book.pages)
-    ORM.add_book(book_db)
-    return "Book was added"
+async def index(login: str = Form(...), password: str = Form(...), credentials = Depends(check_credentials)):
     
+    return RedirectResponse("/home", status_code=303)
+
+@app.get("/add_book")
+async def add_book(request : Request):
+    return templates.TemplateResponse("add_book.html",{"request":request})
+@app.post("/submit_add_book")
+async def add_book(author:str = Form(),name:str = Form(),pages:str = Form(),submit: str = Form(), credentials = Depends(check_credentials)):
+    book_db = Book(author = author,name = name, pages = pages)
+    ORM.add_book(book_db)
+    return RedirectResponse("/home", status_code=303)
+
+
+@app.get("/home", response_class=HTMLResponse) 
+def home(request:Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+@app.post("/submithome")
+def submithome(b_add:str = Form(),b_refill:str=Form(),b_delete:str=Form(),b_info:str=Form()):
+    
+    if b_add:
+        print("redirect")
+        return RedirectResponse("/add_book",status_code=303)
+    if b_refill:
+        return RedirectResponse("/refill_book",status_code=303)
+    if b_delete:
+        return RedirectResponse("/delete_book",status_code=303)
+    if b_info:
+        return RedirectResponse("/info",status_code=303)
+    
+
 @app.get("/{author}_books")
 def get_books_by_author(author : str, username = Depends(check_credentials)):
     return ORM.get_book_by_author(author)
-@app.patch("/refill_{name}")
+@app.patch("/refill_book")
 def refill(name : str, book : BookBase,username = Depends(check_credentials)):
     return ORM.refil_book(name=name, new_book=book)
+@app.delete("/delete_book")
 def delete_book(name:str, username = Depends(check_credentials)):
     
     return ORM.delete_author(name)
+@app.get("/info")
+def info(request : Request):
+    return templates.TemplateResponse("info.html",{"request": request,"books" : ORM.get_all_books()})
