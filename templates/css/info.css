@@ -1,0 +1,12 @@
+body{
+    display: grid;
+    grid-template-columns: repeat(4,100px);
+
+}
+.main{
+    color: green;
+}
+span{
+    margin: 25%;
+    
+}
