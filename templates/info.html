@@ -2,12 +2,20 @@
 <html>
 <head>
     <title>Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='info.css') }}">
 </head>
 <body>
-    {%for book in books%}
-        <h1>{{book.author}}</h1>
-        <p>{{book.name}}<br>{{book.pages}}</p>
-    {%endfor%}
-
+    
+        {%for book in books%}
+        <div class="main">
+            Author <br>
+            <span class="author"><h3>{{book.author}}</h3></span><br>
+            Name <br>
+            <span class="name"><h3>{{book.name}}</h3></span><br>
+            Pages <br>
+            <span class="pages"><h3>{{book.pages}}</h3></span>
+        </div>
+        {%endfor%}
+    
 </body>
 </html>
