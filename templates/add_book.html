@@ -2,20 +2,19 @@
 <html>
 <head>
     <title>Add book</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='forms.css') }}">
 </head>
 <body>
-    <form action="/http://127.0.0.1:8000/submit_add_book" method="post">
-        Author
+    <form action="/submit_add_book" method="post">
+        <span class="font">Author</span>
         <input type="text" name="author">
-        Name book 
+        <span class="font"> Name book</span>
         <input type="text" name="name">
-        Pages
+        <span class="font">Pages</span>
         <input type="text" name="pages">
-        <input type="submit" name="submit">
-        {% if submit %}
-
-            Book was added
-        {%endif%}
+        <br>
+        <input type="submit" name="submit" id="submit">
+        
     </form>
 </body>
 </html>
