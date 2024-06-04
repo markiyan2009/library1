@@ -1,5 +1,6 @@
 from database.database import engine, Base, session_factory
 from database.models import Book, User
+from sqlalchemy import and_
 
 
 
@@ -21,17 +22,11 @@ class ORM:
                 sesion.commit()
             return "Користувач уже є"
     @staticmethod
-    def auth_username(username):
+    def auth(username, password):
         with session_factory() as sesion:
-            username_new = sesion.query(User).filter(User.username == username).first()
-            
-            if username_new:
-                return True
-            return False
-    def auth_password(password):
-        with session_factory() as sesion:
-            password_new = sesion.query(User).filter(User.password == password).first()
-            if password_new:
+            user = sesion.query(User).filter(and_(User.username == username, User.password == password)).first()
+            print(user)
+            if user:
                 return True
             return False
 
@@ -40,6 +35,10 @@ class ORM:
         with session_factory() as sesion:
             sesion.add(book)
             sesion.commit()
+    @staticmethod
+    def get_books_in_list():
+        with session_factory() as sesion:
+            pass
     @staticmethod
     def get_all_books():
         with session_factory() as sesion:
@@ -61,13 +60,13 @@ class ORM:
             else:
                 return False
     @staticmethod
-    def refil_book(name,new_book):
+    def refil_book(name,new_name,new_author,new_pages):
         with session_factory() as sesion:
             book = sesion.query(Book).filter(Book.name == name).first()
             if book:
-                book.name = new_book.name
-                book.author = new_book.author
-                book.pages = new_book.pages 
+                book.name = new_name
+                book.author = new_author
+                book.pages = new_pages 
                 sesion.commit() 
                 return book
             else:
