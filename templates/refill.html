@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Refill book</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='forms.css') }}">
+</head>
+<body>
+    <form action="/submit_refill_book" method="post">
+        Old name of book
+        <input type="text" name="old_book">
+        New author
+        <input type="text" name="author">
+        New Name
+        <input type="text" name="name">
+        New pages
+        <input type="text" name="pages"><br>
+        <input type="submit" name="submit">
+        {{operation_succesful}}
+    </form>
+</body>
+</html>

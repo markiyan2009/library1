@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete book</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='forms.css') }}">
+</head>
+<body>
+    <form action="/submit_delete" method="post">
+        Name
+        <input type="text" name="name">
+    </form>
+</body>
+</html>

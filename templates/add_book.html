@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add book</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='forms.css') }}">
+</head>
+<body>
+    <form action="/submit_add_book" method="post">
+        <span class="font">Author</span>
+        <input type="text" name="author">
+        <span class="font"> Name book</span>
+        <input type="text" name="name">
+        <span class="font">Pages</span>
+        <input type="text" name="pages">
+        <br>
+        <input type="submit" name="submit" id="submit">
+        
+    </form>
+</body>
+</html>
